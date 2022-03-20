@@ -1,0 +1,19 @@
+﻿@model dt191gProjectApp.Models.Workout
+
+@{
+    ViewData["Title"] = "Ta bort träningspass";
+    var day = @Model?.DayofWorkout + "ar";
+}
+ 
+<div class="handleforms">  
+    
+    <form asp-action="DeleteWorkout">
+        <h2 class="adminformsh2">Ta bort träningspass</h2>
+        <input type="hidden" asp-for="WorkoutId" />
+        <p><strong>Är du säker på att du vill ta bort @Model?.TypeOfWorkout?.TypeName på @day kl @Model?.Time?</strong></p>
+        <div class="submit-group">
+            <input type="submit" value="Ja ta bort" class="delete" />
+            <a class="go" asp-controller="Admin" asp-action="Index">&lt; Gå tillbaka</a>
+        </div>
+    </form>
+</div>

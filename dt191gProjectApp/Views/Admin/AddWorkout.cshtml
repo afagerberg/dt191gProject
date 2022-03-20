@@ -1,0 +1,65 @@
+﻿@model dt191gProjectApp.Models.Workout
+
+@{
+    ViewData["Title"] = "Lägg till träningspass";
+}
+
+
+<div class="handleforms">   
+    
+        <form asp-action="AddWorkout">
+            <h2 class="adminformsh2">Lägg till träningspass</h2>
+            <div class="form-group">
+                <label asp-for="TypeId" class="control-label"></label>
+                <select asp-for="TypeId" class ="form-control" asp-items="ViewBag.TypeId"></select>
+                <span asp-validation-for="TypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trainer" class="control-label"></label>
+                <input asp-for="Trainer" class="form-control" />
+                <span asp-validation-for="Trainer" class="text-danger"></span>
+            </div>
+            <label class="daylabel">Veckodag för passet</label>
+           <div id="weekbox">
+                <label>Måndag
+                <input type="radio" asp-for="DayofWorkout" id="mon" value="Måndag" />
+                </label>
+                <label>Tisdag
+                <input type="radio" asp-for="DayofWorkout" id="tis" value="Tisdag" />
+                </label>
+                <label>Onsdag
+                <input type="radio" asp-for="DayofWorkout" id="ons" value="Onsdag" />
+                </label>
+                <label>Torsdag
+                <input type="radio" asp-for="DayofWorkout" id="tors" value="Torsdag" />
+                </label>
+                <label>Fredag
+                <input type="radio" asp-for="DayofWorkout" id="fre" value="Fredag" />
+                </label>
+                <label>Lördag
+                <input type="radio" asp-for="DayofWorkout" id="lor" value="Lördag" />
+                </label>
+                <label>Söndag
+                <input type="radio" asp-for="DayofWorkout" id="sond" value="Söndag" />
+                </label>
+                <span asp-validation-for="DayofWorkout" class="text-danger"></span>
+            </div>
+            
+            <div class="time-group">
+                <label asp-for="Time" class="control-label"></label>
+                <input type="time" asp-for="Time" class="form-control" />
+                <span asp-validation-for="Time" class="text-danger"></span>
+            </div>
+            <div class="submit-group">
+              <input type="submit" value="+ Lägg till pass" />
+              <a class="go" asp-controller="Admin" asp-action="Index">&lt; Gå tillbaka</a>
+            </div>
+           
+        </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

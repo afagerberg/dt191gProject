@@ -1,0 +1,40 @@
+﻿@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Min profil Personlig data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<div class="handleforms">
+    
+        <partial name="_ManageNav" />
+
+        <form id="download-data" asp-page="DownloadPersonalData" method="post">
+            <h2 class="adminformsh2">Min profil</h2>
+            <p><strong>Hej @User?.Identity?.Name!</strong></p>
+
+            <h3>Personlig data</h3>
+
+            <p class="personaldata">Ditt konto innehåller personuppgifter som du har gett oss. På den här sidan kan du hantera denna data.</p>
+            
+            <div class="submit-group">
+            <input class="btn btn-primary" type="submit" value="Ladda ner"><br>
+            @if (User != null)
+            {
+                @if (!User.IsInRole("Admin"))
+                {
+                    <p class="personaldata">
+                        <strong>Om du raderar denna data tas ditt konto bort permanent, och det kan inte återställas.</strong>
+                    </p>
+                    <a asp-page="DeletePersonalData" class="delete">Avsluta konto</a>
+                }
+            }
+            </div>
+
+        </form>
+        
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

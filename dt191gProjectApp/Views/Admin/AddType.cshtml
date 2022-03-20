@@ -1,0 +1,30 @@
+﻿@model dt191gProjectApp.Models.TypeOfWorkout
+
+@{
+    ViewData["Title"] = "Lägg till koncept";
+}
+
+<div class="handleforms">
+        <form asp-action="AddType">
+            <h2 class="adminformsh2">Lägg till träningskoncept</h2>
+            <div class="form-group">
+                <label asp-for="TypeName" class="control-label"></label>
+                <input asp-for="TypeName" class="form-control" />
+                <span asp-validation-for="TypeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" placeholder="Det handlar om..." ></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="submit-group">
+                <input type="submit" value="Lägg till koncept" class="btn btn-primary" />
+                <a class="go" asp-controller="Home" asp-action="Index">&lt; Gå tillbaka</a>
+            </div>
+        </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

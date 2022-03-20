@@ -1,0 +1,15 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<div class="profilelinks">
+    <div class="rightlinks">
+        <a class="go2" id="profile" asp-page="./Index">Login settings</a>
+         @if (hasExternalLogins)
+        {
+            <a id="external-login" class="go2" asp-page="./ExternalLogins">External logins</a><br>
+        }
+        <a class="go2" id="personal-data" asp-page="./PersonalData">Personlig data</a><br>
+    </div>
+</div>
+

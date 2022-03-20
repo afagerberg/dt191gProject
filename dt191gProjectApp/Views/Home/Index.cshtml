@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<dt191gProjectApp.Models.TypeOfWorkout>
+@{
+    ViewData["Title"] = "hem";
+
+}
+
+
+<div id="conceptlist">
+    <h2>Koncept</h2>
+    @if (!User.IsInRole("Admin"))
+    {
+       <p class="intro">Hos oss på Hurtig kan du som medlem gå på olika träningspass där vi erbjuder olika koncept.
+           <br> Vad är du sugen på att träna? </p>
+    }
+    
+
+     @if (User.IsInRole("Admin"))
+    {
+        <div class="pagelinks">
+            <a class="handle" asp-controller="Admin" asp-action="AddType">+ </a>
+            <p>Lägg till ett koncept</p>
+        </div>
+    }
+    <div class="concepts">
+        @if(Model != null)
+        {
+            @foreach(var item in Model)
+            {
+                <ul>
+                    <li class="typetitle">@item.TypeName</li>
+                    <li class="desc">@item.Description</li>
+                    <li class="schedbuttons"> 
+                    @if(User.IsInRole("Admin")){
+                        <br>
+                        <a class="AddEdit" asp-controller="Admin" asp-action="EditType" asp-route-id="@item.TypeId">Edit</a> 
+                        <a class="delete" asp-controller="Admin" asp-action="DeleteType" asp-route-id="@item.TypeId">Ta bort</a>
+                    }
+                    </li>
+                </ul>
+            }
+        }
+
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="usernav">
+@if (SignInManager.IsSignedIn(User))
+{
+    @if(User != null){
+
+    string? user = User?.Identity?.Name;
+    int pos = user.IndexOf("@");
+           
+    string shortUser = user.Remove(pos);
+
+    <li>
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage @shortUser">
+            <img src="~/Images/usericon.png" alt="usericon">
+
+            </a>
+        </li>
+    <li>
+        <form  class="logoutli" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+        </form>
+    </li>
+    }
+}
+else
+{
+    <li class="beforelogin">
+        <a asp-area="Identity" asp-page="/Account/Register">Bli medlem</a>
+    </li>
+    <li class="beforelogin">
+        <a class="alogin" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+</ul>

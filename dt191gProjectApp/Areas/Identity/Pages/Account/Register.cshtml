@@ -1,0 +1,56 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Bli medlem";
+    
+    var roles = (List<IdentityRole>?)ViewData["roles"];
+    if(roles != null){
+        foreach(var role in roles)
+        {
+             if(role.Name == "Member")
+             {
+                ViewData["role"] = role.Id;
+             }
+         }
+    }
+    
+}
+
+<div class="handleforms"> 
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h2 class="adminformsh2">Registrera ett medlemskap</h2>
+             <p class="personaldata">Som medlem hos oss kommer du att få betala en månadsavgift på 199 kr/mån - Här är första månaden gratis
+             <br> Kom in till oss på Västra Allén i Sundsvall när du registrerat dig för att få lokalinfo, ditt medlemskort och ordna betalningsmetod</p>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+
+                <input type="hidden" asp-for="Input.Name" class="form-control" value="@ViewData["role"]"/>
+
+            <div class="submit-group">
+                <input id="registerSubmit" type="submit" value="Bli medlem" />
+            </div>
+        </form>
+    </div>
+    
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model dt191gProjectApp.Models.Booking
+
+@{
+    ViewData["Title"] = $"Boka {ViewBag.wName}";
+}
+<div class="handleforms"> 
+        
+       <form asp-action="BookWorkout">
+
+            <h2>Boka @ViewBag.wName</h2>
+
+            <input type="hidden" asp-for="Member" class="form-control" value="@User.Identity?.Name" />
+            <input type="hidden" asp-for="WorkoutId" class ="form-control" value="@ViewData["WorkoutId"]">
+            <p><strong>Vill du boka @ViewBag.wName på @ViewBag.day kl @ViewBag.time?</strong></p>
+            <div class="submit-group">  
+                <input type="submit" value="Ja, boka" />
+                <a class="go" asp-controller="Member" asp-action="Index">&lt; Nej Gå tillbaka</a>
+            </div>
+    
+        </form>
+        
+</div>

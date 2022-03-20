@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+    <button id="openMobnav" onclick="toggleMobile()"></button>
+    <div id="mobnavlist">
+        <ul>
+                <li >
+                  <a asp-area="" asp-controller="Home" asp-action="Index">hem</a>
+                </li>
+                 <li>
+                 <a  asp-area="" asp-controller="Home" asp-action="Index" asp-fragment="conceptlist">koncept</a>
+                 </li>
+                 @if (SignInManager.IsSignedIn(User))
+                {
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                         <a  asp-area="" asp-controller="Admin" asp-action="Index">träningspass</a>
+                        </li>                    
+                    }
+                    @if (User.IsInRole("Member"))
+                    {
+                        <li>
+                         <a  asp-area="" asp-controller="Member" asp-action="Index">träningspass</a>
+                        </li>                    
+                    }
+                }
+          </ul>      
+        <partial name="_LoginPartial" />    
+    </div>
+    

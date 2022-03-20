@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager 
+
+<div id="banner">
+    <div class="bannerbox">
+        <div class="bannerinfo">
+        <h2>Hurtig</h2>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            string? user = User?.Identity?.Name;
+            int pos = user.IndexOf("@");
+           
+            string shortUser = user.Remove(pos);
+                   
+                
+
+            @if (User.IsInRole("Member"))
+            {
+                <h3>Välkommen @shortUser, det är tid att vara hurtig! Var med och träna med oss</h3>
+                <div class="bannerbuttons">
+                    <a asp-controller="Home" asp-action="Index" asp-fragment="conceptlist">Om koncept</a>
+                    <a asp-controller="Member" asp-action="Index">Boka träningspass</a>
+
+                </div>
+            }
+            @if (User.IsInRole("Admin"))
+            {
+                <h3>Välkommen @shortUser</h3>
+                <div class="bannerbuttons">
+                    <a  asp-controller="Home" asp-action="Index" asp-fragment="conceptlist">Administrera koncept</a>
+                    <a asp-controller="Admin" asp-action="Index">Administrera träningspass</a>
+
+                </div>
+            }
+
+        }else
+        {
+            <h3>Det är tid att vara hurtig! Var med och träna med oss</h3>
+            <div class="bannerbuttons">
+                    <a class="bannerlogin" asp-area="Identity" asp-page="/Account/Login">Logga in</a>
+                    <p>Ännu inte medlem hos oss?</p>
+                    <a class="bannerlogin" asp-area="Identity" asp-page="/Account/Register">Bli medlem</a>
+                    <a class="bannerlogin" asp-area="" asp-controller="Home" asp-action="Index" asp-fragment="conceptlist">Vad erbjuder Hurtig?</a>
+
+            </div>
+        }
+        </div>
+        <div class="bannerimgInfo">
+        <img src="~/Images/bannerIllustration.png" alt="cirkel med träningsobjekt">
+        </div>
+    </div>
+    <div class="arrow">
+    </div>
+</div>

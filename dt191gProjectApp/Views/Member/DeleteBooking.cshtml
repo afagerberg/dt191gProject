@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model dt191gProjectApp.Models.Booking
+
+@{
+    ViewData["Title"] = $"Avboka {Model?.Workout?.TypeOfWorkout?.TypeName}";
+}
+
+  
+   <div class="handleforms"> 
+             
+      <form asp-action="DeleteBooking">
+         <h2 class="adminformsh2">Avboka</h2>
+         <input type="hidden" asp-for="BookingId" />
+         <p><strong>Är du säker på att du vill avboka @Model?.Workout?.TypeOfWorkout?.TypeName på @Model?.Workout?.DayofWorkout kl @Model?.Workout?.Time?</strong></p>
+         <div class="submit-group">
+             <input class="delete" type="submit" value="Ja avboka" /> 
+             <a class="go" asp-controller="Home" asp-action="Index">&lt; Gå tillbaka</a>
+         </div>
+      </form>
+   </div>
+
+ 
+ 

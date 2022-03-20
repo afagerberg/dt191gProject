@@ -1,0 +1,126 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<dt191gProjectApp.Models.Workout>
+@{
+    ViewData["Title"] = "Träningspass";
+
+    string[] days = { "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag" };
+
+    var today = DateTime.Now.ToString("dddd");
+    string capToday = today.Substring(0, 1).ToUpper() + today.Substring(1);
+
+    TimeSpan nowTime = DateTime.Now.TimeOfDay;
+
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <h2>Schema träningspass</h2>
+
+    @if (User.IsInRole("Member"))
+    {
+      @if(ViewBag.Message != null)
+      {
+        <div class="message">
+            <p>@ViewBag.Message</p>
+        </div>
+      }
+      @if(ViewBag.delete != null)
+      {
+        <div class="deletemessage">
+            <p>@ViewBag.delete</p>
+        </div>
+      }
+        @foreach (var workout in Model)
+        {  
+            @if(workout?.Bookings != null){
+                @foreach(var bookings in workout.Bookings){   
+                    @if(capToday == workout?.DayofWorkout && bookings.Member == User?.Identity?.Name)
+                     {
+
+                        TimeSpan ts = TimeSpan.Parse(workout.Time);
+                            @if(nowTime < ts){
+                                <div class="message">
+                                    <p class="todaymsg">
+                                    Du har @workout?.TypeOfWorkout?.TypeName idag kl @workout?.Time
+                                    </p>
+                 
+                                </div>
+                            }
+                
+                    }
+                }
+            }
+        }
+    <div class="schedule">
+        @foreach(var day in days){
+        <div class="scheduleday">
+            
+            <h3>@day</h3>
+            <ul>
+                @if (Model != null)
+                {
+
+                    var objects = Model.OrderBy(workout => workout.Time);
+
+                    @foreach (var workout in objects)
+                    {
+                        @if (workout.DayofWorkout == day)
+                        {
+
+                            <li><div class="details"><p class="schedTime" id="@workout?.WorkoutId">Kl @workout?.Time</p>
+                                <strong>@workout?.TypeOfWorkout?.TypeName </strong>
+                                <p class="trainer">Instruktör: @workout?.Trainer </p>
+                                </div>
+                                <div class="bookinfo">
+                                @if(workout?.Bookings != null)
+                                    {
+                                        <p class="countbooked">@workout.Bookings.Count av 5 bokade</p>
+                                                @foreach(var booking in workout.Bookings)
+                                                {
+                                                    @if(booking.Member == User?.Identity?.Name)
+                                                    {
+                                                        <p class="booked">Bokat </p>
+                                                    }
+                                                }
+      
+                                    }else {<p class="countbooked">0 av 5 bokade</p> }
+                                </div>
+                                <div class="schedbuttons">
+
+                                @if(workout?.Bookings != null){
+                                @foreach(var booking in workout.Bookings)
+                                        {
+                                            
+                                            @if(workout.Bookings.Count(booking => booking.Member == User?.Identity?.Name) < 1)
+                                            {
+                                                @if(workout.Bookings.Count < 5){
+                                                    <a class="AddEdit" asp-controller="Member" asp-action="BookWorkout" asp-route-id="@workout.WorkoutId">Boka</a>
+                                                }
+                                               
+                                            }@if(booking.Member == User?.Identity?.Name)
+                                            {
+                                                 <a class="delete" asp-controller="Member" asp-action="DeleteBooking" asp-route-id="@booking.BookingId">Avboka</a>
+                                            }
+
+                                        }
+                                
+
+                                        @if (workout.Bookings.Count < 1)
+                                        { <a class="AddEdit" asp-controller="Member" asp-action="BookWorkout" asp-route-id="@workout.WorkoutId">Boka</a>}
+                             }
+                              </div>   
+                         </li>
+                        }
+                    }
+
+                }
+            </ul>
+        </div>
+        }
+    </div>
+    }
+}
+
+

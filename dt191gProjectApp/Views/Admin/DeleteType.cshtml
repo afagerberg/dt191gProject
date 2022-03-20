@@ -1,0 +1,21 @@
+﻿@model dt191gProjectApp.Models.TypeOfWorkout
+
+@{
+    ViewData["Title"] = "Ta bort koncept";
+}
+
+
+<div class="handleforms">     
+    <form asp-action="DeleteType">
+        <h2 class="adminformsh2">Ta bort konceptet</h2>
+
+        <input type="hidden" asp-for="TypeId" />
+        <p><strong>Är du säker på att du vill ta bort @Model.TypeName?</strong></p>
+
+        <div class="submit-group">
+            <input type="submit" value="Ja ta bort" class="delete" />
+            <a class="go" asp-controller="Home" asp-action="Index">&lt; Gå tillbaka</a>
+        </div>
+    </form>
+</div>
+

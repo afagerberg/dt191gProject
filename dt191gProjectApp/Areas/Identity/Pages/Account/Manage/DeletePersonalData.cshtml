@@ -1,0 +1,46 @@
+﻿@page
+@model DeletePersonalDataModel
+@{
+    ViewData["Title"] = "Avsluta medlemskap";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+@if(User.IsInRole("Admin")){
+<div class="handleforms">
+     <h2 class="adminformsh2">Ej raderbar</h2>
+     <p class="personaldata">
+         <strong>Admin kan ej avsluta sitt konto då du besitter administratörsegenskaper</strong>
+         <div class="submit-group">
+            <a class="go" asp-page="./PersonalData" >&lt; Gå tillbaka</a>
+        </div>
+     </p>
+</div>
+}else {
+<div class="handleforms">
+    <form id="delete-user" method="post">
+        <h2 class="adminformsh2">@ViewData["Title"]</h2>
+        <div class="alert alert-warning" role="alert">
+            <p class="personaldata">
+                <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+            </p>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (Model.RequirePassword)
+        {
+            <div class="form-group">
+                <label asp-for="Input.Password" class="form-label"></label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+        }
+        <div class="submit-group">
+            <input class="delete" type="submit" value="Avsluta medlemskap">
+            <a class="go" asp-page="./PersonalData" >&lt; Gå tillbaka</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+}

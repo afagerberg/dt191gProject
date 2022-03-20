@@ -1,0 +1,41 @@
+﻿@model dt191gProjectApp.Models.Workout
+
+@{
+    ViewData["Title"] = "Redigera träningspass";
+}
+
+<div class="handleforms">
+        <form asp-action="EditWorkout">
+        <h2 class="adminformsh2">Redigera träningspass</h2>
+            <input type="hidden" asp-for="WorkoutId" />
+            <div class="form-group">
+                <label asp-for="TypeId" class="control-label"></label>
+                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
+                <span asp-validation-for="TypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trainer" class="control-label"></label>
+                <input asp-for="Trainer" class="form-control" />
+                <span asp-validation-for="Trainer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DayofWorkout" class="control-label"></label>
+                <input asp-for="DayofWorkout" class="form-control" />
+                <span asp-validation-for="DayofWorkout" class="text-danger"></span>
+            </div>
+            <div class="time-group">
+                <label asp-for="Time" class="control-label"></label>
+                <input type="time" asp-for="Time" class="form-control" />
+                <span asp-validation-for="Time" class="text-danger"></span>
+            </div>
+            <div class="submit-group">
+                <input type="submit" value="Uppdatera" class="btn btn-primary" />
+                <a class="go" asp-controller="Admin" asp-action="Index">&lt; Gå tillbaka</a>
+            </div>
+        </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

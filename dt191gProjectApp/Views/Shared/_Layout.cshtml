@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hurtig</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+
+        <nav>
+
+            <div id="logo">
+                <a asp-controller="Home" asp-action="Index"><h1>Hurtig</h1></a>
+            </div>
+             <partial name="_MobilenavPartial" />
+           <ul class="mainnav">
+              <li >
+                  <a asp-area="" asp-controller="Home" asp-action="Index">hem</a>
+                </li>
+                 <li>
+                 <a  asp-area="" asp-controller="Home" asp-action="Index" asp-fragment="conceptlist">koncept</a>
+                 </li>
+                 @if (SignInManager.IsSignedIn(User))
+                {
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                         <a  asp-area="" asp-controller="Admin" asp-action="Index">träningspass</a>
+                        </li>                    
+                    }
+                    @if (User.IsInRole("Member"))
+                    {
+                        <li>
+                         <a  asp-area="" asp-controller="Member" asp-action="Index">träningspass</a>
+                        </li>                    
+                    }
+                }
+            </ul>
+            <div class ="accountlist">
+           <partial name="_LoginPartial" />
+           </div>
+            </nav>
+        
+    </header>
+    @{
+        var url = Context.Request.Path.Value;
+    }
+    @if(!url.Contains("/Admin") && !url.Contains("/Member") && !url.Contains("/Register") && !url.Contains("/Login") && !url.Contains("/Identity") && !url.Contains("/Role"))
+    {
+       <partial name="_BannerPartial" />
+    }
+    <div class="container">
+        <main>
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        <p>Kom till Hurtig på Västra Allén i Sundsvall - <a href="https://www.google.com/search?q=V%C3%A4stra+All%C3%A9n+8A%2C+Sundsvall&rlz=1C1CHBD_svSE920SE920&sxsrf=APq-WBs-ILaIl5CvzwSr2capD0nQLdtRFg%3A1647794756586&ei=RFo3YrKdI4L0rgTCyYa4AQ&oq=v%C3%A4stra+allen+8A+sundsvall&gs_lcp=Cgdnd3Mtd2l6EAEYADICCCY6CQgAELADEAgQHjoGCAAQBxAeOgUIABCiBEoECEEYAUoECEYYAFCCBliRKGChMmgBcAB4AIABTIgBiwOSAQE2mAEAoAEByAEKwAEB&sclient=gws-wiz" target="_blank">Se karta</a></p>
+        <p>
+            &copy; 2022 - Hurtig | Mer om Hurtig på <a href="https://www.instagram.com/" target="_blank">Instagram</a><br>
+            <strong>//Alice Fagerberg</strong>
+        </p>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
